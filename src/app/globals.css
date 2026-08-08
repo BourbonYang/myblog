@@ -1,26 +1,274 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4ebd0; /* 经典文艺复兴牛皮纸/羊皮纸暖色 */
+  --foreground: #2d1e15; /* 深胡桃木墨水褐色，避免纯黑的生硬 */
+  --blog-primary: #78523b; /* 暖红铜色 */
+  --blog-secondary: #ad5a36; /* 陶土橙色 */
+  --card-bg: #faf6eb; /* 稍亮一点的暖乳白色 */
+  --card-border: rgba(120, 82, 59, 0.2); /* 精致淡褐色边框 */
+  --nav-bg: rgba(244, 235, 208, 0.85);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #17120e; /* 深色复古皮革/炭化纸背景 */
+    --foreground: #ebdccb; /* 柔和的复古米色字 */
+    --blog-primary: #c49982; /* 浅铜金色 */
+    --blog-secondary: #d18a66; /* 浅陶土色 */
+    --card-bg: #211c18; /* 稍微亮一点的深褐皮质色 */
+    --card-border: rgba(196, 153, 130, 0.15);
+    --nav-bg: rgba(23, 18, 14, 0.85);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-mono: var(--font-geist-mono), "Fira Code", monospace;
+  --color-blog-primary: var(--blog-primary);
+  --color-blog-secondary: var(--blog-secondary);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 全局选择文本颜色自定义 - 匹配暖铜色系 */
+::selection {
+  background-color: rgba(173, 90, 54, 0.25);
+  color: inherit;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* 页面顶部滚动进度条 */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2.5px;
+  background: linear-gradient(to right, var(--blog-primary), var(--blog-secondary));
+  z-index: 100;
+  width: 0%;
+  transition: width 0.1s ease-out;
+}
+
+/* 导航链接手写底线悬停过渡 */
+.nav-link {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1.5px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--blog-primary);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* 复古卡片微升浮效果 */
+.blog-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(120, 82, 59, 0.45);
+  box-shadow: 0 10px 20px -8px rgba(45, 30, 21, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .blog-card:hover {
+    border-color: rgba(196, 153, 130, 0.3);
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* 文章正文排版（文艺复兴手稿/人文社论风格） */
+.markdown-body {
+  line-height: 1.9;
+  font-size: 1.075rem;
+  /* 将自带等高数字的 Cambria 和 Times New Roman 提到 Georgia 前面 */
+  font-family: Cambria, "Times New Roman", Georgia, Times, "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN", serif;
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0.01em;
+  text-rendering: optimizeLegibility;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  /* 标题也使用衬线体，保持复古手抄本的一致性质感 */
+  font-family: Georgia, "Noto Serif SC", serif;
+  color: var(--foreground);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 5rem;
+}
+
+.markdown-body h1 {
+  font-size: 2.15rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.35;
+}
+
+.markdown-body h2 {
+  font-size: 1.55rem;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  border-bottom: 1px solid rgba(120, 82, 59, 0.15);
+  padding-bottom: 0.5rem;
+}
+
+.markdown-body h3 {
+  font-size: 1.25rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.markdown-body p {
+  margin-bottom: 1.5rem;
+  color: #3e2d23; /* 深褐灰色，保持阅读暖意 */
+  text-align: justify;
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown-body p {
+    color: #e3dbd3; /* 暗色模式温和文字色 */
+  }
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.75rem;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+}
+
+.markdown-body li {
+  margin-bottom: 0.5rem;
+  color: #4a382c;
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown-body li {
+    color: #cdbfb2;
+  }
+}
+
+.markdown-body strong {
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+/* 引用块 (Blockquote) - 像羊皮纸边缘一样温和 */
+.markdown-body blockquote {
+  padding: 0.5rem 1.25rem;
+  margin: 1.75rem 0;
+  border-left: 3px solid var(--blog-primary);
+  background-color: rgba(120, 82, 59, 0.04);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: #543f33;
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown-body blockquote {
+    background-color: rgba(196, 153, 130, 0.03);
+    color: #cdbfb2;
+  }
+}
+
+.markdown-body blockquote p {
+  margin-bottom: 0;
+}
+
+/* 行内代码 */
+.markdown-body :not(pre) > code {
+  background-color: rgba(120, 82, 59, 0.06);
+  color: var(--blog-primary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+  word-break: break-word;
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown-body :not(pre) > code {
+    background-color: rgba(196, 153, 130, 0.12);
+  }
+}
+
+/* 代码块 */
+.markdown-body pre {
+  margin: 1.75rem 0;
+  padding: 1.25rem;
+  overflow-x: auto;
+  border-radius: 10px;
+  background-color: #1a1511; /* 与复古皮革色融合的超深褐黑背景 */
+  color: #ebdccb;
+  border: 1px solid rgba(120, 82, 59, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  line-height: 1.6;
+}
+
+.markdown-body pre code {
+  color: inherit;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* 数学公式 KaTeX */
+.katex-display {
+  margin: 2rem 0 !important;
+  padding: 1.5rem !important;
+  background-color: rgba(120, 82, 59, 0.02);
+  border: 1px dashed rgba(120, 82, 59, 0.15);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .katex-display {
+    background-color: rgba(196, 153, 130, 0.01);
+    border-color: rgba(196, 153, 130, 0.1);
+  }
+}
+
+.katex {
+  font-size: 1.06em !important;
 }
