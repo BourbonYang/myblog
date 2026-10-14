@@ -1,4 +1,5 @@
-import { getPostData } from "@/lib/posts";
+import Link from "next/link";
+import { getPostData, getSortedPostsData } from "@/lib/posts";
 import { Metadata } from "next";
 
 interface PostPageProps {
@@ -22,12 +23,12 @@ export default async function PostPage({ params }: PostPageProps) {
     <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
       {/* 顶部面包屑与返回导航 */}
       <nav className="mb-10 text-sm">
-        <a
+        <Link
           href="/posts"
           className="inline-flex items-center gap-1.5 text-slate-500 hover:text-blog-primary font-medium transition-colors"
         >
           <span>←</span> 返回文章列表
-        </a>
+        </Link>
       </nav>
 
       {/* 文章详情容器 */}
@@ -64,4 +65,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: postData.description,
     keywords: postData.keywords ? postData.keywords.split(",") : undefined,
   };
+}
+
+export async function generateStaticParams() {
+  const posts = await getSortedPostsData();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }

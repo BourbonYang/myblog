@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getSortedPostsData } from "@/lib/posts";
 
 export default async function PostsPage() {
@@ -29,9 +30,9 @@ export default async function PostsPage() {
 
               {/* 标题 */}
               <h2 className="text-lg md:text-xl font-serif font-bold mb-3 tracking-tight text-slate-900 dark:text-slate-100">
-                <a href={`/posts/${post.slug}`} className="hover:text-blog-primary transition-colors">
+                <Link href={`/posts/${post.slug}`} className="hover:text-blog-primary transition-colors">
                   {post.title}
-                </a>
+                </Link>
               </h2>
 
               {/* 简介描述 */}

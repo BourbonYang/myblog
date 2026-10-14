@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "katex/dist/katex.min.css";
@@ -41,21 +42,21 @@ export default function RootLayout({
         {/* 精致毛玻璃顶部导航栏 */}
         <header className="sticky top-0 z-50 w-full border-b border-card-border bg-white/40 backdrop-blur-md dark:bg-[#17120e]/60 transition-all">
           <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-            <a href="/" className="tracking-tight transition-all duration-300 hover:opacity-85">
+            <Link href="/" className="tracking-tight transition-all duration-300 hover:opacity-85">
               <span className="font-serif italic font-extrabold text-xl text-[#2b6641] dark:text-[#61a877] drop-shadow-sm">
                 Binlog.
               </span>
-            </a>
+            </Link>
             <nav className="flex gap-8 text-sm font-medium text-slate-700 dark:text-slate-300">
-              <a href="/" className="nav-link hover:text-blog-primary transition-colors">
+              <Link href="/" className="nav-link hover:text-blog-primary transition-colors">
                 首页
-              </a>
-              <a href="/posts" className="nav-link hover:text-blog-primary transition-colors">
+              </Link>
+              <Link href="/posts" className="nav-link hover:text-blog-primary transition-colors">
                 文章
-              </a>
-              <a href="/about" className="nav-link hover:text-blog-primary transition-colors">
+              </Link>
+              <Link href="/about" className="nav-link hover:text-blog-primary transition-colors">
                 关于
-              </a>
+              </Link>
             </nav>
           </div>
         </header>

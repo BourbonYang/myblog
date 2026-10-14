@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getSortedPostsData } from "@/lib/posts";
 
 export default async function Home() {
@@ -23,12 +24,12 @@ export default async function Home() {
       <section>
         <div className="flex items-center justify-between mb-8 border-b border-card-border pb-4">
           <h2 className="text-xl font-serif font-bold tracking-tight">最近手稿</h2>
-          <a
+          <Link
             href="/posts"
             className="text-sm font-serif font-bold text-blog-primary hover:text-blog-secondary transition-colors"
           >
             全部手稿 ({allPosts.length}) →
-          </a>
+          </Link>
         </div>
 
         <div className="flex flex-col gap-8">
@@ -38,12 +39,12 @@ export default async function Home() {
               className="group flex flex-col md:flex-row md:items-baseline justify-between gap-2 md:gap-8 py-4 border-b border-dashed border-card-border"
             >
               <div className="flex-1">
-                <a
+                <Link
                   href={`/posts/${post.slug}`}
                   className="inline-block text-lg font-serif font-bold text-slate-900 dark:text-slate-100 group-hover:text-blog-primary transition-colors mb-2"
                 >
                   {post.title}
-                </a>
+                </Link>
                 <div
                   className="text-sm text-slate-500 dark:text-slate-400 font-serif leading-relaxed max-w-3xl prose-description"
                   dangerouslySetInnerHTML={{ __html: post.descriptionHtml }}
